@@ -1,11 +1,15 @@
 import cv2 as cv
 from ultralytics import YOLO
 
-model = YOLO("yolo26n-pose.pt")
+def setup_model():
 
-results = model.train(data = "hand-keypoints.yaml", epochs = 5, imgsz = 640)
+    model = YOLO("yolo26n-pose.pt")
+    results = model.train(data = "hand-keypoints.yaml", epochs = 3, imgsz = 320)
 
-def start_video():
+    return model
+
+
+def start_video(model):
 
     cap = cv.VideoCapture(0)
 
@@ -28,4 +32,13 @@ def start_video():
     cap.release()
     cv.destroyAllWindows()
 
-start_video()
+
+def main():
+    
+    model = setup_model()
+    start_video(model)
+
+
+if __name__ == "__main__":
+
+    main()
