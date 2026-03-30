@@ -3,8 +3,8 @@ from ultralytics import YOLO
 
 def setup_model():
 
-    model = YOLO("yolo26n-pose.pt")
-    results = model.train(data = "hand-keypoints.yaml", epochs = 3, imgsz = 320)
+    model = YOLO("runs/pose/train8/weights/best.pt")
+    #results = model.train(data = "hand-keypoints.yaml", epochs = 10, imgsz = 640, device = 0)
 
     return model
 
@@ -17,8 +17,12 @@ def start_video(model):
 
         ret, frame = cap.read()
         results = model(frame, stream = True)
-
+    
+    
         for r in results:
+            
+            print(dir(r.keypoints))
+            
             detected = r.plot()
             cv.imshow("Webcam", detected)
 
